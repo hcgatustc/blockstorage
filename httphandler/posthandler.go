@@ -3,8 +3,16 @@ package httphandler
 import (
 	"fmt"
 	"net/http"
+	"blockstorage/blocksmanager"
+	"io/ioutil"
 )
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "URL.Path = %q , Method = %q \n", r.URL.Path, r.Method)
+	data,_ := ioutil.ReadAll(r.Body)
+	if len(data) == 0 {
+		return 
+	}
+	job, _ := blocksmanager.PostJob(data)
+	
+	fmt.Fprintf(w, "filename %s \n", <-job.Result)
 }
