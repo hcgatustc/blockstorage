@@ -1,14 +1,20 @@
 package blocksmanager
 
-
 func Writer(){
 	for {
 		select {
 			case job := <- ToDo:
-				WriteBlock(job)
-				filename, err := GetFileName(job.File)					
+				var err error
+				var filename string
+				err = WriteBlock(job)
+				if err != nil {
+					job.Result<-""
+					continue
+				}
+				filename, err = GetFileName(job.File)					
 				if err!= nil {
-					filename = ""
+					job.Result<-""
+					continue
 				}
 				job.Result <- filename
 		

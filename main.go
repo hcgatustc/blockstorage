@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/arcface-image/", httphandler.Handler)
+	http.HandleFunc("/arcface-images/", httphandler.Handler)
 	log.Fatal(http.ListenAndServe("0.0.0.0:8081", nil))
 }
 
